@@ -2,17 +2,16 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
+     host: 'smtp.gmail.com', // Gmail SMTP server
+     port: 587,
     secure: false, // true for 465, false for other ports
-    requireTls:true,
     auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
     },
-    // Fail fast so we don't wait forever
-    debug: true, // <--- This will print the SMTP handshake to your logs
-    logger: true // <--- This will log the data
+   tls: {
+    rejectUnauthorized: false, // Accept self-signed certificates (optional)
+  }
 });
 
 transporter.verify(function (error, success) {
