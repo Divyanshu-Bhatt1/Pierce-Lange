@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    pool: true,
+    pool: false,
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
     secure: false, // true for 465, false for other ports
@@ -11,8 +11,14 @@ const transporter = nodemailer.createTransport({
         pass: process.env.SMTP_PASS,
     },
     tls: {
-        rejectUnauthorized: false // Helps with self-signed certs or some strict server configs
-    }
+        rejectUnauthorized: false, // Helps if the server has certificate issues
+        ciphers: 'SSLv3' // Legacy support if needed
+    },
+    // Fail fast so we don't wait forever
+    connectionTimeout: 10000, // 10 seconds
+    greetingTimeout: 10000,
+    debug: true, // <--- This will print the SMTP handshake to your logs
+    logger: true // <--- This will log the data
 });
 
 transporter.verify(function (error, success) {
