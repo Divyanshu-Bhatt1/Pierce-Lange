@@ -38,6 +38,22 @@ app.post('/webhook', async (req, res) => {
 
         const callData = data.call; 
 
+        const direction = callData.direction; // 'inbound' or 'outbound'
+        
+        // 2. Extract ONLY the Customer's number based on direction
+        let userPhone = '';
+
+        if (direction === 'inbound') {
+            // Customer called the Agent
+            userPhone = callData.from_number;
+        } else {
+            // Agent called the Customer (Outbound)
+            userPhone = callData.to_number;
+        }
+
+        console.log(`📞 Call Direction: ${direction}`);
+        console.log(`👤 Customer Number extracted: ${userPhone}`);
+
 
         const customData = callData.call_analysis?.custom_analysis_data || {};
 
@@ -50,11 +66,10 @@ app.post('/webhook', async (req, res) => {
 
         const guestName = getValue('guestname');
         const reason = getValue('reasonofcall');
-        const phone = callData.from_number;
+
 
         // 2. CLEAN SUBJECT LINE LOGIC
-        // Start with the phone number as a fallback
-        let mainIdentity = phone;
+       
         
         // If we have a name, use it instead of phone
         if (guestName && guestName !== 'Unknown') {
@@ -71,7 +86,7 @@ app.post('/webhook', async (req, res) => {
 
 
         // Generate Email Content
-        const emailHtml = generateEmailTemplate(callData);
+        const emailHtml = generateEmailTemplate(callData,userPhone);
         // const subject = `Conversation with Ai Agent`;
 
         // Determine Recipient (In a real app, this might come from the database based on agent_id)
@@ -85,7 +100,7 @@ app.post('/webhook', async (req, res) => {
         }
 
         // Send Email
-        await sendEmail(recipient, subject, emailHtml);
+        // await sendEmail(recipient, subject, emailHtml);
         console.log(`Email successfully sent to ${recipient} for Call ID: ${callData.call_id}`);
 
     } catch (error) {

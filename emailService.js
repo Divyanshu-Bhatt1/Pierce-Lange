@@ -36,7 +36,10 @@ const sendEmail = async (to, subject, html) => {
     // 2. Prepare the Message Object
     const msg = {
         to: to, // Recipient
-        from: process.env.EMAIL_FROM, // Verified Sender (app@entlastet.com)
+        from: {
+            email: process.env.EMAIL_FROM, // app@entlastet.com
+            name: 'entlastet app'          // <--- THIS IS THE CHANGE
+        },
         subject: subject,
         html: html,
     };

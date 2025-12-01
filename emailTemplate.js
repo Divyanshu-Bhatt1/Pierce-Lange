@@ -1,4 +1,4 @@
-const generateEmailTemplate = (data) => {
+const generateEmailTemplate = (data,userPhone) => {
   const {
     call_id,
     start_timestamp,
@@ -94,7 +94,7 @@ const generateEmailTemplate = (data) => {
           <h2 class="hero-title">${reasonOfCall}</h2>
           <div class="guest-info">
              Accomodation: <strong style="color: #111827;">${guestName}</strong> <br>
-             Phone: ${from_number}
+             Phone: ${userPhone}
           </div>
 
           <table class="stats-table">
