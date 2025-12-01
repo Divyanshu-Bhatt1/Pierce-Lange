@@ -130,7 +130,6 @@ const generateEmailTemplate = (data) => {
         </td>
       </tr>
     </table>
-    <div class="footer"><p>Call ID: ${call_id}</p></div>
   </div>
 </body>
 </html>
