@@ -27,7 +27,7 @@ const generateEmailTemplate = (data, userPhone) => {
     return { value: foundKey ? customData[foundKey] : null, actualKey: foundKey };
   };
 
-  const guestNameObj = getValue('guestname');
+  const guestNameObj = getValue('accommodationname');
   const reasonObj = getValue('reasonofcall');
   
   const guestName = guestNameObj.value || 'Unbekannter Gast';

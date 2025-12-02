@@ -97,7 +97,7 @@ app.post('/webhook', async (req, res) => {
             return foundKey ? customData[foundKey] : null;
         };
 
-        const guestName = getValue('guestname');
+        const guestName = getValue('accommodationname');
         const reason = getValue('reasonofcall');
 
 
@@ -118,7 +118,6 @@ app.post('/webhook', async (req, res) => {
         }
         
         // --- GENERATE & SEND ---
-        
         // Pass the TRANSLATED data to the template
         const emailHtml = generateEmailTemplate(germanCallData, userPhone);
 
